@@ -6,35 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @State private var rememberMe = false
-
+    @Query var students: [Student]
+    @Environment(\.modelContext) var modelContext
+    
     var body: some View {
-        VStack {
-            PushButton(title: "Remember Me", isOn: $rememberMe)
-            Text(rememberMe ? "On" : "Off")
+        NavigationStack {
+            List {
+                ForEach(students) { student in
+                    Text(student.name)
+                }.onDelete(perform: { indexSet in
+                    for index in indexSet {
+                        modelContext.delete(students[index])
+                    }
+                })
+            }
+            .toolbar {
+                Button("Insert Student") {
+                    let student = Student(id: UUID(), name: "Naveed")
+                    modelContext.insert(student)
+                }
+            }
+            .navigationTitle("Classroom")
         }
-    }
-}
-
-
-struct PushButton: View {
-    let title: String
-    @Binding var isOn: Bool
-
-    var onColors = [Color.red, Color.yellow]
-    var offColors = [Color(white: 0.6), Color(white: 0.4)]
-
-    var body: some View {
-        Button(title) {
-            isOn.toggle()
-        }
-        .padding()
-        .background(LinearGradient(colors: isOn ? onColors : offColors, startPoint: .top, endPoint: .bottom))
-        .foregroundStyle(.white)
-        .clipShape(.capsule)
-        .shadow(radius: isOn ? 0 : 5)
     }
 }
 
