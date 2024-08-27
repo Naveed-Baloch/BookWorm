@@ -9,27 +9,51 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Query var students: [Student]
+    
     @Environment(\.modelContext) var modelContext
+    @Query var books: [Book]
+    @State private var showingAddScreen = false
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(students) { student in
-                    Text(student.name)
-                }.onDelete(perform: { indexSet in
-                    for index in indexSet {
-                        modelContext.delete(students[index])
+                ForEach(books) { book in
+                    NavigationLink(value: book) {
+                        HStack {
+                            EmojiRatingView(rating: book.rating)
+                                .font(.largeTitle)
+                            
+                            VStack(alignment: .leading) {
+                                Text(book.title)
+                                    .font(.headline)
+                                Text(book.author)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
-                })
-            }
-            .toolbar {
-                Button("Insert Student") {
-                    let student = Student(id: UUID(), name: "Naveed")
-                    modelContext.insert(student)
                 }
+                .onDelete(perform: removeBook)
             }
-            .navigationTitle("Classroom")
+            .toolbar{
+                if(!books.isEmpty) {
+                    EditButton()
+                }
+                Button(action: {
+                    showingAddScreen.toggle()
+                }, label: {
+                    Image(systemName: "plus")
+                })
+                
+            }
+            .sheet(isPresented: $showingAddScreen) {
+                AddBookView()
+            }
+        }
+    }
+    
+    func removeBook(indexset: IndexSet) {
+        for index in indexset {
+            modelContext.delete(books[index])
         }
     }
 }
