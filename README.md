@@ -1,14 +1,14 @@
 # BookWorm
 
-BookWorm is a Swift app that allows users to create and manage a collection of books, including reviews and ratings. The app leverages SwiftData to save and organize book information, providing a smooth and efficient way to maintain your reading list.
+BookWorm is a Swift app that allows users to create and manage a collection of books, including reviews and ratings. The app uses SwiftData to save and organize book information, providing a smooth and efficient way to maintain your reading list.
 
 ## Features and Learnings
 
-- **Swift Data**: Utilizes Swift's native data management framework for saving and retrieving book details.
-- **Model Container**: Implements a model container to manage and persist data.
-- **Model Context**: Manages the data flow between the user interface and data storage, ensuring a seamless user experience.
-- **Add/Delete Books**: Easily add new books to your collection or delete them with a simple swipe gesture.
-- **Swipe to Delete**: Provides an intuitive way to remove books from the list with a swipe.
+- **Swift Data**
+- **Model Container**
+- **Model Context**
+- **Add/Delete Books**
+- **Swipe to Delete**
 
 ## Screenshots
 | Home Screen | Mission Detail Screen | Astronaut View |
